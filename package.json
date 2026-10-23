@@ -1,0 +1,12 @@
+{
+  "name": "sysu-score-peek",
+  "version": "2.1.0",
+  "private": true,
+  "description": "逸仙智课个人作业的临时卷面分书签：纯前端、同源查询、不保存任何数据",
+  "scripts": {
+    "test": "node test/core.test.cjs",
+    "build": "node scripts/build.cjs",
+    "manual": "node scripts/manual.cjs",
+    "package": "node scripts/build.cjs && node scripts/manual.cjs && node scripts/package.cjs"
+  }
+}
