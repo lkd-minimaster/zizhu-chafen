@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src 'none'; font-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>自助查分 · 安装书签</title>
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#f3f1e8;color:#15261f;
+    font:16px/1.75 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .page{max-width:1080px;margin:0 auto;padding:0 28px}
+  .top{display:flex;align-items:center;gap:12px;padding:26px 0 10px}
+  .logo{font-weight:800;letter-spacing:2px;font-size:13px;color:#0d3b2d}
+  .logo i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#0d7a58;margin-right:7px;
+    box-shadow:0 0 0 4px #d8ede1;vertical-align:1px}
+  .meta{font-size:12px;color:#7b8b82;margin-left:auto;font-variant-numeric:tabular-nums}
+  .hero{padding:44px 0 10px}
+  .eyebrow{font-size:12px;letter-spacing:3px;color:#6d8379;margin:0 0 14px;font-weight:600}
+  h1{font-size:clamp(44px,7.2vw,76px);line-height:1.04;letter-spacing:-3.5px;margin:0 0 22px;font-weight:820;
+    color:#0e2a21}
+  h1 em{font-style:normal;color:#0d6b4f;position:relative;white-space:nowrap;z-index:0}
+  h1 em::after{content:"";position:absolute;left:0;right:-2px;bottom:6px;height:10px;background:#cfe8da;
+    z-index:-1;border-radius:2px}
+  .lede{max-width:620px;color:#52665c;font-size:17px;margin:0 0 34px}
+  .lede b{color:#1d3a2f}
+  .install{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin:0 0 12px}
+  .drag{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:280px;
+    background:#0d6b4f;color:#fff;text-decoration:none;padding:20px 34px;border-radius:14px;
+    font-size:19px;font-weight:700;letter-spacing:.5px;cursor:grab;
+    box-shadow:0 12px 30px rgba(13,107,79,.26),inset 0 1px 0 rgba(255,255,255,.18);
+    transition:transform .15s,box-shadow .15s;user-select:none}
+  .drag:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(13,107,79,.3)}
+  .drag:active{cursor:grabbing;transform:translateY(0)}
+  .drag span{font-size:22px;line-height:1}
+  .drag::after{content:"↗";font-size:15px;opacity:.7;margin-left:2px}
+  .hint{margin:0;color:#6b7f75;font-size:13.5px;max-width:330px}
+  .hint b{color:#0d5c45}
+  .hint.warn{color:#8a4d1d;background:#fff3df;padding:8px 12px;border-radius:9px}
+  .arrow-note{font-size:12px;color:#87978e;margin:16px 0 0}
+  .manual-link{font-size:13px;color:#5c7066;margin:14px 0 0}
+  .manual-link a{color:#0d6b4f;font-weight:650;text-underline-offset:3px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:46px 0 8px}
+  .step{background:#fffdf7;border:1px solid #e3e0d3;border-radius:16px;padding:20px 20px 18px}
+  .step .n{width:24px;height:24px;border-radius:50%;background:#0d6b4f;color:#fff;display:flex;
+    align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-bottom:12px}
+  .step h3{font-size:15px;margin:0 0 6px;letter-spacing:-.2px}
+  .step p{margin:0;font-size:13px;color:#63766c}
+  .step kbd{font:inherit;font-size:12px;background:#eef1e9;border:1px solid #dcdfd4;border-bottom-width:2px;
+    border-radius:5px;padding:1px 5px;color:#3c4f45;white-space:nowrap}
+  .cols{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin:26px 0 8px;align-items:start}
+  .card{background:#fffdf7;border:1px solid #e3e0d3;border-radius:20px;padding:26px}
+  .card h2{font-size:13px;letter-spacing:2px;color:#6d8379;margin:0 0 18px;font-weight:700}
+  .score{display:flex;align-items:baseline;gap:8px;margin:0 0 6px}
+  .score b{font-size:64px;line-height:1;letter-spacing:-3px;font-weight:800;font-variant-numeric:tabular-nums}
+  .score span{font-size:18px;color:#8a9a91}
+  .cap{font-size:12px;color:#7e8f86;margin:0 0 18px}
+  .mock-title{font-size:17px;font-weight:700;margin:0 0 4px;letter-spacing:-.3px}
+  .mock-desc{font-size:13px;color:#667a6f;margin:0 0 16px}
+  .tag{display:inline-block;font-size:11px;background:#e6f3ec;color:#0d6b4f;border-radius:20px;
+    padding:2px 9px;margin-bottom:14px;font-weight:600}
+  .mock-note{font-size:11.5px;color:#5c7066;background:#f1f6ee;border-radius:10px;padding:11px 13px;line-height:1.7}
+  .bound{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .bound li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:13.5px;color:#4d6157}
+  .bound .yes{color:#0d7a58;font-weight:800}
+  .bound .no{color:#b06a3a;font-weight:800}
+  .bound b{color:#1a332a}
+  .faq{margin:44px 0 0;border-top:1px solid #ddd9ca;padding-top:10px}
+  .faq h2{font-size:12px;letter-spacing:2.5px;color:#6d8379;margin:22px 0 8px}
+  details{border-bottom:1px solid #e2ded0;padding:14px 2px}
+  summary{cursor:pointer;font-size:15px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"+";color:#0d6b4f;font-weight:800;width:14px}
+  details[open] summary::before{content:"–"}
+  details p{margin:10px 0 2px 24px;color:#5c7066;font-size:14px}
+  details code{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;background:#ecefe5;
+    padding:1px 5px;border-radius:4px}
+  .alt{margin:34px 0 0;background:#eef3e8;border:1px solid #dde5d5;border-radius:16px;padding:22px 24px}
+  .alt h2{font-size:15px;margin:0 0 6px}
+  .alt p{margin:0 0 12px;font-size:13px;color:#5c7066}
+  .alt a.button{display:inline-block;background:#fff;border:1px solid #cfd9c9;border-radius:9px;
+    padding:9px 15px;color:#17402f;text-decoration:none;font-size:13.5px;font-weight:600}
+  .alt a.button:hover{border-color:#0d6b4f;color:#0d6b4f}
+  .alt textarea{width:100%;height:76px;margin-top:12px;padding:10px;border:1px solid #cfd9c9;border-radius:8px;
+    font:11px/1.5 ui-monospace,Consolas,monospace;resize:vertical;color:#43574c;background:#fbfcf8}
+  .copy-row{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+  .copy-row button{border:1px solid #cfd9c9;background:#fff;border-radius:8px;padding:7px 13px;cursor:pointer;
+    font:inherit;font-size:13px;color:#17402f}
+  .copy-row button:hover{border-color:#0d6b4f}
+  .copy-row span{font-size:12px;color:#0d6b4f}
+  footer{margin:50px 0 46px;border-top:1px solid #ddd9ca;padding-top:22px;
+    display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:#7e8f86}
+  footer p{margin:0;max-width:760px}
+  footer .v{margin-left:auto;font-variant-numeric:tabular-nums}
+  @media (max-width:860px){
+    .steps{grid-template-columns:1fr}
+    .cols{grid-template-columns:1fr}
+    .install{flex-direction:column;align-items:flex-start}
+    .drag{width:100%}
+  }
+  @media print{
+    body{background:#fff}
+    .drag,.install,.alt{display:none}
+    .steps,.cols{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <span class="logo"><i></i>自助查分</span>
+    <span class="meta">逸仙智课 · 个人作业 · v__VERSION__</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">交完作业 · 成绩待发布</p>
+      <h1>先看一眼<br><em>卷面分</em>。</h1>
+      <p class="lede">课外作业提交后只显示“成绩待发布”，要等老师批阅。这个小书签会在你<strong>自己的作业详情页</strong>里，读取系统已经给出的逐题得分，等 AI 批阅稳定后显示一个<b>临时卷面分</b>——不用等，也不改任何东西。</p>
+      <div class="install">
+        <a class="drag" id="bookmark" href="__BOOKMARK__" draggable="true"><span>＋</span>自助查分</a>
+        <p class="hint" id="hint">按住这个绿色按钮，拖到浏览器上方的<b>收藏夹栏</b>，再松手。安装一次，以后在作业页点一下就能用。</p>
+      </div>
+      <p class="arrow-note">Edge：<kbd>Ctrl</kbd> ＋ <kbd>Shift</kbd> ＋ <kbd>B</kbd> 显示收藏夹栏 · 已经显示就跳过</p>
+      <p class="manual-link">第一次用？先看 <a href="1-先看这里-安装图解.pdf">3 页安装图解（PDF）</a>，或 <a href="1-先看这里-安装图解.html">网页版</a>。</p>
+    </section>
+
+    <section class="steps">
+      <div class="step"><div class="n">1</div><h3>显示收藏夹栏</h3><p>按 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd>，让地址栏下面出现一条收藏夹栏。</p></div>
+      <div class="step"><div class="n">2</div><h3>把按钮拖进去</h3><p>按住上面的绿色按钮，拖到收藏夹栏空白处松手，看到“自助查分”就装好了。</p></div>
+      <div class="step"><div class="n">3</div><h3>在作业页点一下</h3><p>登录逸仙智课，打开<b>已提交</b>的作业详情页，点收藏夹里的“自助查分”。</p></div>
+    </section>
+
+    <section class="cols">
+      <div class="card">
+        <span class="tag">界面示例 · 不是你的成绩</span>
+        <h2>读取结果</h2>
+        <p class="mock-title">课外作业-第4章-程序的控制结构</p>
+        <p class="mock-desc">连续两次核对一致，当前卷面分如下。</p>
+        <div class="score"><b>98.5</b><span>/ 100</span></div>
+        <p class="cap">20 道题已核对 · 读取于 2026/10/23 10:26:00（北京时间）</p>
+        <div class="mock-note">临时卷面分，最终以老师评定为准。<br>只读取你自己的得分；平台不向学生开放标准答案。</div>
+      </div>
+      <div class="card">
+        <h2>能力边界</h2>
+        <ul class="bound">
+          <li><span class="yes">✓</span><span>告诉你<b>这次大概得了多少分</b>，以及满分和题数。</span></li>
+          <li><span class="yes">✓</span><span>等 AI 批阅真正写完再显示，<b>不会把中间值当结果</b>。</span></li>
+          <li><span class="no">✕</span><span>不能告诉你<b>哪题错了、正确答案是什么</b>。平台对学生的接口里，选项对错一律返回 0，标准答案在服务端就被拦住。</span></li>
+          <li><span class="no">✕</span><span>不修改、不提交、不重交，也不替你做任何操作。</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="alt">
+      <h2>拖不动？用导入的方式</h2>
+      <p>在 Edge 收藏夹菜单里选择「导入收藏夹」→「从文件导入」，选中同目录的 <b>3-拖不动时-导入收藏夹.html</b>。导入后会出现在“导入的收藏夹”文件夹里，可以再拖到收藏夹栏。</p>
+      <p>或者手动新建一个收藏项：名称填「自助查分」，网址粘贴下面这串完整地址（<b>保留开头的 javascript:</b>）。</p>
+      <div class="copy-row">
+        <button id="copy" type="button">复制书签地址</button>
+        <span id="feedback" role="status"></span>
+      </div>
+      <textarea id="address" readonly aria-label="完整书签地址">__BOOKMARK__</textarea>
+    </section>
+
+    <section class="faq">
+      <h2>常见问题</h2>
+      <details><summary>点了按钮没反应？</summary><p>这一步是<b>拖动</b>，不是单击。按住绿色按钮不松手，移到收藏夹栏再松开。如果拖不动，用上面的“3-拖不动时-导入收藏夹.html”方式。</p></details>
+      <details><summary>一直显示“等待登录身份”？</summary><p>说明页面还没有发出带登录身份的请求。刷新作业页、确认仍然登录着，再点一次书签。工具只旁听页面自己的请求，不会为了拿身份去修改或提交作业。</p></details>
+      <details><summary>为什么要等几分钟？</summary><p>提交后系统会先进入 <code>aiReview</code>，逐题分数还在写入，可能先出现 97，再变成 null，最后才是 100。工具会一直等到状态变成 <code>unReview</code>、题目齐全、并且连续两次读到的逐题得分完全一致，才把分数显示出来。</p></details>
+      <details><summary>能看到哪题错了吗？</summary><p>不能。这是接口权限决定的：所有选项的 <code>isCorrect</code> 对student 一律返回 0，标准答案由服务端拦住。本工具只汇总得分，不做“错题分析”。</p></details>
+      <details><summary>安全吗？会上传我的成绩吗？</summary><p>纯前端书签，只向 <code>aic.sysu.edu.cn</code> 的两个查询接口发 POST；不写入 Cookie / localStorage，不加载外部脚本，不连第三方服务器，关闭面板即停止。登录令牌只在当前页面内存里用一次。</p></details>
+      <details><summary>刷新页面后还要再点吗？</summary><p>要。书签不是常驻插件，每次刷新或重新进入页面后，重新点一下收藏夹里的“自助查分”即可。</p></details>
+      <details><summary>这是学校官方功能吗？</summary><p>不是。它是学生自己做的小工具，依赖平台现有接口；接口或登录方式变化后可能失效，成绩以平台和老师公布的为准。</p></details>
+    </section>
+  </main>
+
+  <footer>
+    <p>仅支持 <b>aic.sysu.edu.cn</b> 的个人、题目型作业详情页。工具不是学校官方功能，不保证长期可用；成绩最终以老师评定为准。</p>
+    <span class="v">v__VERSION__ · 构建于 __BUILT__</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var bookmark = document.getElementById('bookmark');
+    var hint = document.getElementById('hint');
+    bookmark.addEventListener('click', function (event) {
+      event.preventDefault();
+      hint.className = 'hint warn';
+      hint.innerHTML = '这一步要<b>拖动</b>：按住按钮不松手，移到地址栏下面的收藏夹栏，再松开。拖不动就往下看“导入的方式”。';
+    });
+    bookmark.addEventListener('dragstart', function () {
+      hint.className = 'hint';
+      hint.innerHTML = '拖到收藏夹栏后松手即可。装好后，回到作业详情页点收藏夹里的“自助查分”。';
+    });
+    document.getElementById('copy').addEventListener('click', function () {
+      var area = document.getElementById('address');
+      var feedback = document.getElementById('feedback');
+      area.select();
+      area.setSelectionRange(0, area.value.length);
+      function done(ok) { feedback.textContent = ok ? '已复制' : '已选中，按 Ctrl+C 复制'; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(area.value).then(function () { done(true); }, function () { done(false); });
+      } else {
+        try { done(document.execCommand('copy')); } catch (error) { done(false); }
+      }
+    });
+  })();
+</script>
+</body>
+</html>

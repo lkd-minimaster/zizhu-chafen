@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自助查分 · 安装图解</title>
+<style>
+  @page{size:A4;margin:0}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#e8e4d7}
+  body{font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:#15261f}
+  .page{width:210mm;height:297mm;background:#fffdf7;position:relative;overflow:hidden;
+    padding:16mm;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page + .page{page-break-before:always}
+  @media screen{.page{margin:10mm auto;box-shadow:0 3mm 10mm rgba(0,0,0,.12)}}
+  p{margin:0}
+  b{color:#0f2f24}
+  .tag{display:inline-flex;align-items:center;background:#0d6b4f;color:#fff;border-radius:20mm;
+    padding:1.8mm 4.4mm;font-size:9pt;font-weight:700;letter-spacing:.06em}
+  h1{font-size:27pt;line-height:1.28;letter-spacing:-.03em;margin:5mm 0 3mm;font-weight:840;color:#0c2a20}
+  .lead{font-size:11pt;line-height:1.8;color:#4e6358;max-width:170mm}
+  .lead b{color:#0d6b4f}
+
+  .folder{border:1px solid #d9d3c0;border-radius:3mm;overflow:hidden;background:#fff;margin-top:6mm;
+    box-shadow:0 2mm 6mm rgba(20,45,35,.07)}
+  .folder-bar{display:flex;align-items:center;justify-content:space-between;background:#ece8da;
+    padding:2.6mm 4mm;font-size:9pt;color:#51645a;border-bottom:1px solid #ddd7c4}
+  .folder-bar b{font-size:9.5pt;color:#223b31}
+  .folder-bar span{font-size:7.6pt;color:#7d8f85}
+  .file{display:grid;grid-template-columns:9mm 1fr auto;align-items:center;gap:3mm;
+    padding:3.4mm 4mm;border-bottom:1px solid #f0ece0;font-size:9.4pt}
+  .file:last-child{border-bottom:0}
+  .file b{font-weight:600;color:#263d33}
+  .file .note{font-size:7.8pt;color:#8a9a91}
+  .ficon{width:8mm;height:8mm;border-radius:1.6mm;display:flex;align-items:center;justify-content:center;
+    font-size:6pt;font-weight:800;color:#fff}
+  .ficon.pdf{background:#b23b2e}
+  .ficon.html{background:#0d6b4f}
+  .ficon.txt{background:#7d8f85}
+  .file.hot{background:#fff4e4;border-left:2.2mm solid #c2571f;padding-left:2mm}
+  .file.hot b{color:#a3440f;font-weight:800}
+  .hot-tag{background:#c2571f;color:#fff;font-size:8pt;font-weight:700;border-radius:1.6mm;padding:1mm 2.6mm}
+  .point{display:flex;align-items:center;gap:3mm;margin:4mm 0 0;color:#b4491c;font-weight:700;font-size:10pt}
+  .point .big{font-size:14pt;line-height:1}
+
+  .shot{border:1px solid #ded8c7;border-radius:3mm;overflow:hidden;background:#fff;line-height:0}
+  .shot img{width:100%;display:block}
+  .caption{font-size:8pt;color:#6d8177;margin-top:1.8mm;line-height:1.6}
+
+  .browser{position:relative;border:1px solid #d9d4c3;border-radius:3.5mm;overflow:hidden;background:#f1f3f5;
+    box-shadow:0 2mm 6mm rgba(20,45,35,.07);margin-top:7mm}
+  .chrome{background:#dee1e6;padding:2mm 3mm 0}
+  .tabs{display:flex;gap:1.5mm;align-items:flex-end}
+  .tab{background:#f7f8f9;border-radius:2mm 2mm 0 0;padding:1.4mm 4mm;font-size:7pt;color:#3b4a44}
+  .tab.idle{background:#cfd4da;color:#5d6a64;padding:1.2mm 3mm}
+  .address{display:flex;align-items:center;gap:2mm;background:#f7f8f9;padding:1.8mm 3mm;font-size:7pt;color:#5a6a62}
+  .address .url{flex:1;background:#eef0f2;border-radius:10mm;padding:1mm 3mm;color:#3e4f47;
+    font-family:ui-monospace,Consolas,monospace;font-size:6.4pt;white-space:nowrap;overflow:hidden}
+  .favbar{background:#f7f8f9;border-top:1px solid #e5e7ea;padding:1.6mm 3mm;display:flex;align-items:center;gap:3mm}
+  .fav{background:#0d6b4f;color:#fff;border-radius:1.8mm;padding:.9mm 3mm;font-size:7.4pt;font-weight:700;
+    display:inline-flex;align-items:center;gap:1.5mm}
+  .favhint{font-size:7pt;color:#b4491c;font-weight:700}
+  .site{background:#fff;padding:6mm 6mm;min-height:52mm;position:relative}
+  .site .mini{font-size:8pt;color:#7a8b82;letter-spacing:.08em}
+  .dragbtn{display:inline-flex;align-items:center;gap:2mm;background:#0d6b4f;color:#fff;font-weight:700;
+    border-radius:2.2mm;padding:2.8mm 7mm;font-size:9.5pt;margin-top:4mm;box-shadow:0 2mm 5mm rgba(13,107,79,.3)}
+  .arrowsvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:7mm}
+  .step{background:#fff;border:1px solid #e6e1d1;border-radius:3.5mm;padding:5.5mm}
+  .step .n{width:7mm;height:7mm;border-radius:50%;background:#e7f2ea;color:#0d6b4f;display:flex;
+    align-items:center;justify-content:center;font-size:9pt;font-weight:800;margin-bottom:2.4mm}
+  .step h3{font-size:10.5pt;margin:0 0 1.4mm;line-height:1.4}
+  .step p{font-size:8.6pt;line-height:1.65;color:#5b6f65}
+  .kbd{display:inline-block;font-size:8pt;background:#eef1e9;border:1px solid #dcdfd4;border-bottom-width:2px;
+    border-radius:1.4mm;padding:.2mm 1.6mm;color:#3c4f45;white-space:nowrap}
+  .mini-bar{background:#eef0f2;border-radius:1.6mm;padding:2mm 3mm;font-size:7.4pt;color:#5d6f65;margin-top:2.4mm}
+  .mini-bar.fav{background:#e7f2ea;color:#0d6b4f;font-weight:700;margin-top:1.4mm}
+
+  .tip{background:#fdf3e3;border:1px solid #ecd9b8;border-radius:3mm;padding:3.8mm 4.4mm;
+    font-size:9pt;line-height:1.7;color:#7a4d1d;display:flex;gap:2.4mm;margin-top:7mm}
+  .tip .ico{font-weight:900;color:#b8722a}
+
+  .minipanel{background:#fff;border:1px solid #e0e8e4;border-radius:3.5mm;padding:4.6mm;
+    box-shadow:0 2mm 6mm rgba(20,45,35,.08);font-size:8pt}
+  .mp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4mm}
+  .mp-brand{font-size:8.6pt;font-weight:700;color:#0f3b2f;display:flex;align-items:center;gap:1.6mm}
+  .mp-brand i{width:1.8mm;height:1.8mm;border-radius:50%;background:#0e7a58;display:inline-block}
+  .mp-pill{font-size:7pt;background:#e6f6ee;color:#0b6b4e;border-radius:10mm;padding:.9mm 2.6mm}
+  .mp-label{font-size:6.8pt;letter-spacing:2px;color:#6d857d;margin-bottom:1.6mm}
+  .mp-title{font-size:10pt;font-weight:700;line-height:1.45;margin-bottom:1.4mm}
+  .mp-score{font-size:32pt;font-weight:820;line-height:1;color:#0d2e25;margin:3mm 0 1.6mm;letter-spacing:-.04em}
+  .mp-score span{font-size:10pt;font-weight:500;color:#7b8f88;letter-spacing:0}
+  .mp-meta{font-size:6.8pt;color:#72867f;margin-bottom:3.2mm;line-height:1.5}
+  .mp-note{font-size:6.8pt;background:#f2f7f4;border-radius:2mm;padding:2.4mm;color:#4f645c;line-height:1.65}
+  .mp-cap{font-size:7pt;color:#8a9a91;margin-top:2mm;line-height:1.5}
+
+  .use2{display:grid;grid-template-columns:1fr 82mm;gap:8mm;margin-top:5mm;align-items:start}
+  .usteps{display:grid;gap:5mm}
+  .ustep{display:grid;grid-template-columns:7mm 1fr;gap:3mm;align-items:start}
+  .ustep .un{width:7mm;height:7mm;border-radius:50%;background:#0d6b4f;color:#fff;font-size:9pt;font-weight:800;
+    display:flex;align-items:center;justify-content:center;margin-top:.6mm}
+  .ustep h3{font-size:11pt;margin:0 0 1.2mm;line-height:1.4}
+  .ustep p{font-size:8.8pt;line-height:1.7;color:#5b6f65}
+  .minitip{background:#f4f8f1;border:1px solid #e0e9da;border-radius:2.4mm;padding:3mm 3.6mm;
+    font-size:8pt;line-height:1.7;color:#4e6559;margin-top:1mm}
+  .use{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm;margin-top:5mm}
+  .use .card{background:#fff;border:1px solid #e6e1d1;border-radius:3.5mm;overflow:hidden}
+  .use .card .body{padding:3.2mm 3.6mm 4mm}
+  .use .card h3{font-size:9.6pt;margin:0 0 1mm}
+  .use .card p{font-size:8pt;line-height:1.6;color:#5b6f65}
+  .use .card .n{display:inline-flex;width:6mm;height:6mm;border-radius:50%;background:#0d6b4f;color:#fff;
+    font-size:8pt;font-weight:800;align-items:center;justify-content:center;margin-right:1.5mm;vertical-align:1px}
+  .use .shot{border:0;border-bottom:1px solid #eee8d8;border-radius:0}
+  .favbox{padding:5mm 3.5mm;background:#f7f8f9;border-bottom:1px solid #eee8d8;min-height:34mm}
+  .favbox .fav{font-size:8.6pt;padding:1.4mm 3.4mm}
+  .favbox .click{font-size:7.4pt;color:#b4491c;margin-top:2mm}
+
+  table{border-collapse:collapse;width:100%;margin-top:3mm;font-size:9pt}
+  th,td{border-bottom:1px solid #e7e3d5;padding:2.6mm 2mm;text-align:left;vertical-align:top;line-height:1.55}
+  th{font-size:8pt;color:#6d8379;font-weight:700;background:#f8f6ec}
+  td:first-child{width:42mm;font-weight:650;color:#334a3f}
+  .fine{font-size:8pt;color:#7d8f85;line-height:1.7;margin-top:4mm}
+
+  .footer{position:absolute;left:16mm;right:16mm;bottom:8mm;display:flex;justify-content:space-between;
+    font-size:7.4pt;color:#8a9a91;border-top:1px solid #e3decd;padding-top:2.4mm}
+  .footer b{color:#0d6b4f}
+</style>
+</head>
+<body>
+
+<!-- ================= 第 1 页：解压后点哪个 ================= -->
+<section class="page">
+  <span class="tag">安装 · 第 1 步 / 共 2 步</span>
+  <h1>解压后，<br>双击「2 号」文件</h1>
+  <p class="lead">压缩包解压后只有 <b>4 个文件</b>，按编号来就行。你正在看的这份是 1 号；接下来双击 <b>2-安装书签.html</b>。</p>
+
+  <div class="folder">
+    <div class="folder-bar"><b>📁 自助查分</b><span>解压后的文件夹</span></div>
+    <div class="file"><span class="ficon pdf">PDF</span><b>1-先看这里-安装图解.pdf</b><span class="note">你正在看</span></div>
+    <div class="file hot"><span class="ficon html">HTML</span><b>2-安装书签.html</b><span class="hot-tag">双击这个</span></div>
+    <div class="file"><span class="ficon html">HTML</span><b>3-拖不动时-导入收藏夹.html</b><span class="note">备用</span></div>
+    <div class="file"><span class="ficon txt">TXT</span><b>4-手动安装-书签地址.txt</b><span class="note">备用</span></div>
+  </div>
+
+  <div class="point"><span class="big">↑</span> 只双击橙色这一行，其他文件先不用管</div>
+
+  <p class="lead" style="margin-top:4mm;font-size:9.6pt;color:#6d8177">如果系统问“用什么打开”，选 <b>Microsoft Edge</b>。</p>
+
+  <div class="shot" style="margin-top:5mm;width:150mm"><img src="docs/install-hero.png" alt="打开安装页后的样子"></div>
+  <p class="caption">双击后，Edge 会打开这个页面。页面中间有一个绿色大按钮 —— 翻到下一页，教你把它放到收藏夹栏。</p>
+
+  <div class="footer"><span>自助查分 · 安装图解</span><span>第 1 页 / 共 3 页 · <b>v__VERSION__</b></span></div>
+</section>
+
+<!-- ================= 第 2 页：拖动安装 ================= -->
+<section class="page">
+  <span class="tag">安装 · 第 2 步 / 共 2 步</span>
+  <h1>把绿色按钮<br>拖进收藏夹栏</h1>
+  <p class="lead">就 3 下。做完，收藏夹栏里会多出一个「自助查分」，以后点它就能查分。</p>
+
+  <div class="browser">
+    <div class="chrome">
+      <div class="tabs"><span class="tab">自助查分 · 安装</span><span class="tab idle">＋</span></div>
+      <div class="address"><span>←</span><span>→</span><span class="url">2-安装书签.html</span><span>☆</span></div>
+      <div class="favbar"><span class="fav">★ 自助查分</span><span class="favhint">← 拖到这里松手</span></div>
+    </div>
+    <div class="site">
+      <div class="mini">自助查分 · 安装页</div>
+      <div class="dragbtn">＋ 自助查分</div>
+    </div>
+    <svg class="arrowsvg" viewBox="0 0 700 300" preserveAspectRatio="none">
+      <defs><marker id="head" markerWidth="10" markerHeight="10" refX="7" refY="3.5" orient="auto">
+        <path d="M0,0 L8,3.5 L0,7 Z" fill="#c2571f"></path></marker></defs>
+      <path d="M165,240 C 110,130 340,110 470,67" fill="none" stroke="#c2571f" stroke-width="3.2"
+        stroke-dasharray="8 6" marker-end="url(#head)"></path>
+    </svg>
+  </div>
+
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h3>让收藏夹栏出现</h3>
+      <p>按 <span class="kbd">Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">B</span>，地址栏下面会多一条栏。</p>
+      <div class="mini-bar">地址栏</div><div class="mini-bar fav">★ 自助查分　← 就是这条</div>
+    </div>
+    <div class="step"><div class="n">2</div><h3>按住，拖上去，松手</h3>
+      <p>鼠标按住绿色按钮<b>不要松</b>，移到收藏夹栏空白处，再松开。</p>
+    </div>
+    <div class="step"><div class="n">3</div><h3>看到它就成功了</h3>
+      <div class="mini-bar fav" style="font-size:8.4pt;padding:2.4mm 3mm">★ 自助查分</div>
+      <p style="margin-top:2mm">收藏夹栏里出现这一项，安装完成。</p>
+    </div>
+  </div>
+
+  <div class="tip"><span class="ico">!</span><span><b>是“拖动”，不是“单击”。</b>在安装页上单击绿色按钮不会安装。如果拖不动，双击文件夹里的 <b>3-拖不动时-导入收藏夹.html</b>，用导入的方式，效果一样。</span></div>
+
+  <p class="fine" style="margin-top:6mm">装好后它会一直留在收藏夹栏；不想用了，右键「自助查分」→ 删除即可，不会在系统里留下别的东西。</p>
+
+  <div class="footer"><span>自助查分 · 安装图解</span><span>第 2 页 / 共 3 页 · <b>v__VERSION__</b></span></div>
+</section>
+
+<!-- ================= 第 3 页：使用 + 救急 ================= -->
+<section class="page">
+  <span class="tag">使用</span>
+  <h1>以后查分，3 步</h1>
+  <p class="lead">只有<b>已经提交</b>的作业才有分数可读。打开作业详情页，再点收藏夹。</p>
+
+  <div class="use2">
+    <div class="usteps">
+      <div class="ustep"><span class="un">1</span><div><h3>打开作业详情页</h3><p>已提交的作业。地址里要有 <b>/stu/homework/detail/</b>，页面上显示「成绩待发布」。</p></div></div>
+      <div class="ustep"><span class="un">2</span><div><h3>点收藏夹里的「自助查分」</h3><p>不用刷新页面，右下角会出现一张卡片，显示读取进度。</p></div></div>
+      <div class="ustep"><span class="un">3</span><div><h3>等「已读取」，看大数字</h3><p>大数字是卷面分。想看每题得几分，点开卡片最下面的「诊断信息 · 每题得分」。看完点 ✕ 关掉。</p></div></div>
+      <div class="minitip">收藏夹栏不见了？再按一次 <span class="kbd">Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">B</span> 就回来了。</div>
+    </div>
+    <div>
+      <div class="minipanel">
+        <div class="mp-head"><span class="mp-brand"><i></i>自助查分</span><span class="mp-pill">已读取</span></div>
+        <p class="mp-label">临时卷面分</p>
+        <p class="mp-title">示例作业-第 4 章</p>
+        <div class="mp-score">98.5<span> / 100</span></div>
+        <p class="mp-meta">10 道题已核对 · 读取于 2026/10/23 10:26</p>
+        <div class="mp-note">临时卷面分，最终以老师评定为准。<br>只读取你自己的得分；平台不向学生开放标准答案。</div>
+      </div>
+      <p class="mp-cap">界面示意，作业名和分数为示例。</p>
+    </div>
+  </div>
+
+  <p class="fine">看到「AI 批阅中」是正常的，平台还在逐题写分，通常几分钟；读完标签页标题会变成「【分数】作业名」。每次刷新网页后，要重新点一次书签。</p>
+
+  <h1 style="font-size:17pt;margin:9mm 0 1mm">卡住了？看这一张表</h1>
+  <table>
+    <tr><th>你看到的</th><th>怎么办</th></tr>
+    <tr><td>拖不动 / 点了没反应</td><td>双击 <b>3-拖不动时-导入收藏夹.html</b>，按里面的提示导入；或手动粘贴 4 号文件里的地址。</td></tr>
+    <tr><td>一直「AI 批阅中」</td><td>正常。先去做别的，几分钟后再看；别关页面。</td></tr>
+    <tr><td>「等待登录身份」</td><td>刷新作业页，确认还登录着，再点一次书签。</td></tr>
+    <tr><td>「成绩已经发布」</td><td>老师已经公布了，直接看作业页上的正式分数。</td></tr>
+    <tr><td>换了电脑 / 浏览器</td><td>在新电脑上重新解压、重新装一次，并先登录平台。</td></tr>
+  </table>
+
+  <p class="fine" style="margin-top:5mm">这是<b>临时卷面分</b>，老师复核或调分后会变，最终以平台公布为准。工具只汇总你自己的得分，不显示哪题错、正确答案是什么 —— 平台不向学生开放这些。</p>
+
+  <div class="footer"><span>自助查分 · 安装图解</span><span>第 3 页 / 共 3 页 · <b>v__VERSION__</b></span></div>
+</section>
+
+</body>
+</html>
